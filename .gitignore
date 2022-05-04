@@ -7,3 +7,6 @@ cache
 results
 ml-latest-small.zip
 ml-latest-small/*
+venv/
+.ipynb_checkpoints/
+MovieSummaries/
