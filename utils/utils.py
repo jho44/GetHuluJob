@@ -99,9 +99,11 @@ def get_recs_for_all_users(num_users, per_topic, user_5_df, user_4_df): # nikki'
             index = topic_df[topic_df['movieId']==movieId].index[0]
             # accounting for out of bound accessing
             if index == 0:
+                row_below = topic_df.iloc[index+1]
                 recommendations[-1].append(row_below['movieId'])
                 continue
             if index == len(topic_df)-1:
+                row_above = topic_df.iloc[index-1]
                 recommendations[-1].append(row_above['movieId'])
                 continue
             row_above = topic_df.iloc[index-1]
@@ -136,7 +138,7 @@ def calc_personalization(recommendations, num_movies, num_users): # nikki's
 
     similarity = sum/denom
     dissimilarity = 1 - similarity
-    print(dissimilarity)
+    print(f'Personalization: {dissimilarity}')
 
 def mapk(recommendations, num_users, user_5_df, user_4_df): # nikki's
     # calculate MAP @ k
@@ -152,6 +154,8 @@ def mapk(recommendations, num_users, user_5_df, user_4_df): # nikki's
         if user_actual.empty:
             continue
         sum = 0
+        if l == 0:
+            continue
         for k in range(1, l):
             # top k recommendations and top k actually rated movies for user
             user_rec = recommendations[user][1:k+1]
@@ -169,4 +173,4 @@ def mapk(recommendations, num_users, user_5_df, user_4_df): # nikki's
 
     # print final map@k value
     map_k /= float(num_users)
-    print(map_k)
+    print(f'MAP@K: {map_k}')

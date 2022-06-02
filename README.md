@@ -6,7 +6,7 @@
 1. LDA
     - [pure Python](https://nicoleeesim97.medium.com/building-a-simple-content-based-recommender-system-for-movies-and-tv-shows-73fec4f325ae)
     - [STAN](https://mc-stan.org/docs/2_18/stan-users-guide/latent-dirichlet-allocation.html)
-        - Haven't gotten the STAN model to handle very many movies -- sampling is slow past 50 movies.
+        - Takes ~10-15 mins to sample 5 times on all 888 movies
 
 ### Eval Metrics
 1. Personalization
