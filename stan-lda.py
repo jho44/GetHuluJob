@@ -90,6 +90,7 @@ def eval(movie_probs):
 
   num_movies, num_users = get_helper_vals(movies_ratings_probs)
   recommendations = get_recs_for_all_users(num_users, per_topic, user_5_df, user_4_df)
+  print(recommendations)
   calc_personalization(recommendations, num_movies, num_users)
   mapk(recommendations, num_users, user_5_df, user_4_df)
 

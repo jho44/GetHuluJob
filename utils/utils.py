@@ -51,7 +51,7 @@ def sort_probs(num_topics, df): # nikki's
 
 def reassign_ids(df, property): # nikki's
     codes, uniques = pd.factorize(df[property], sort=True)
-    df[property] = codes
+    df[property] = uniques
     return df
 
 def get_users_faves(users_df):
@@ -60,7 +60,7 @@ def get_users_faves(users_df):
     user_4_df = users_df[users_df['rating']==4]
     return user_5_df, user_4_df
 
-def get_recs_for_all_users(num_users, per_topic, user_5_df, user_4_df): # nikki's
+def get_recs_for_all_users(users, per_topic, user_5_df, user_4_df): # nikki's
     # calculate recommendations for each user
     """
     users_df: dataframe with ratings for each movie -- userIds should be reassigned!
@@ -78,7 +78,7 @@ def get_recs_for_all_users(num_users, per_topic, user_5_df, user_4_df): # nikki'
     # subsequent values are k recommended titles for the user
     # where k is number of 5 star ratings given by user and if no 5 star ratings, number of 4 star ratings given by user
     recommendations = []
-    for user in range(num_users):
+    for user in users:
         # find number of 5 ratings
         temp_df = user_5_df[user_5_df['userId']==user]
         temp_df
@@ -139,6 +139,7 @@ def calc_personalization(recommendations, num_movies, num_users): # nikki's
     similarity = sum/denom
     dissimilarity = 1 - similarity
     print(f'Personalization: {dissimilarity}')
+    return dissimilarity
 
 def mapk(recommendations, num_users, user_5_df, user_4_df): # nikki's
     # calculate MAP @ k
@@ -174,3 +175,4 @@ def mapk(recommendations, num_users, user_5_df, user_4_df): # nikki's
     # print final map@k value
     map_k /= float(num_users)
     print(f'MAP@K: {map_k}')
+    return map_k
