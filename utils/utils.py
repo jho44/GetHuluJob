@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
 def recommend_by_storyline(title, df): # credit: https://github.com/nicoleeesim/content-based_movie_recommender
@@ -49,18 +48,13 @@ def sort_probs(num_topics, df): # nikki's
 
     return per_topic
 
-def reassign_ids(df, property): # nikki's
-    codes, uniques = pd.factorize(df[property], sort=True)
-    df[property] = uniques
-    return df
-
 def get_users_faves(users_df):
      # find all 4 and 5 star ratings
     user_5_df = users_df[users_df['rating']==5]
     user_4_df = users_df[users_df['rating']==4]
     return user_5_df, user_4_df
 
-def get_recs_for_all_users(users, per_topic, user_5_df, user_4_df): # nikki's
+def get_recs_for_all_users(num_users, per_topic, user_5_df, user_4_df): # nikki's
     # calculate recommendations for each user
     """
     users_df: dataframe with ratings for each movie -- userIds should be reassigned!
@@ -78,7 +72,7 @@ def get_recs_for_all_users(users, per_topic, user_5_df, user_4_df): # nikki's
     # subsequent values are k recommended titles for the user
     # where k is number of 5 star ratings given by user and if no 5 star ratings, number of 4 star ratings given by user
     recommendations = []
-    for user in users:
+    for user in range(num_users):
         # find number of 5 ratings
         temp_df = user_5_df[user_5_df['userId']==user]
         temp_df
@@ -146,7 +140,7 @@ def mapk(recommendations, num_users, user_5_df, user_4_df): # nikki's
     # http://sdsawtelle.github.io/blog/output/mean-average-precision-MAP-for-recommender-systems.html
 
     # for each user
-    map_k = 0
+    metric = 0
     for user in range(num_users):
         l = len(recommendations[user]) - 1
         user_actual = user_5_df[user_5_df['userId']==user]['movieId']
@@ -170,9 +164,36 @@ def mapk(recommendations, num_users, user_5_df, user_4_df): # nikki's
                 sum += len(intersection) / float(k)
         # divide by min(m, N)
         sum /= float(l)
-        map_k += sum
+        metric += sum
 
-    # print final map@k value
-    map_k /= float(num_users)
-    print(f'MAP@K: {map_k}')
-    return map_k
+    metric /= float(num_users)
+    print(f'MAP@K: {metric}')
+    return metric
+
+def mean_precision(recommendations, num_users, user_5_df, user_4_df): # mostly nikki's
+    # http://sdsawtelle.github.io/blog/output/mean-average-precision-MAP-for-recommender-systems.html
+
+    # for each user
+    metric = 0
+    for user in range(num_users):
+        l = len(recommendations[user]) - 1
+        user_actual = user_5_df[user_5_df['userId']==user]['movieId']
+        if user_actual.empty:
+            user_actual = user_4_df[user_4_df['userId']==user]['movieId']
+        if user_actual.empty:
+            continue
+
+        if l == 0:
+            continue
+
+        user_actual = set(user_actual.values)
+        # top k recommendations and top k actually rated movies for user
+        user_rec = set(recommendations[user][1:l+1])
+        # find intersections
+        intersection = list(user_rec & user_actual)
+        # add precision to sum
+        metric += len(intersection) / float(l)
+
+    metric /= float(num_users)
+    print(f'MEAN PRECISION (NOT mAP): {metric}')
+    return metric

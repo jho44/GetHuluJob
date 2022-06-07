@@ -17,7 +17,7 @@ from nltk.corpus import stopwords
 
 import argparse
 import ast
-from utils.utils import get_recs_for_all_users, get_users_faves, sort_probs, get_helper_vals, calc_personalization, mapk
+from utils.utils import get_recs_for_all_users, get_users_faves, sort_probs, get_helper_vals, calc_personalization, mapk, mean_precision
 
 """
 GOAL: recommender system for movies
@@ -54,7 +54,7 @@ model {
 parser = argparse.ArgumentParser()
 parser.add_argument('--regen_words_df', default=False, type=bool)
 parser.add_argument('--regen_data_lemmatized', default=False, type=bool)
-parser.add_argument('--num_movies', default=888, type=int)
+parser.add_argument('--num_movies', default=1056, type=int)
 parser.add_argument('--just_eval', default=False, type=bool)
 
 args = parser.parse_args()
@@ -90,9 +90,9 @@ def eval(movie_probs):
 
   num_movies, num_users = get_helper_vals(movies_ratings_probs)
   recommendations = get_recs_for_all_users(num_users, per_topic, user_5_df, user_4_df)
-  print(recommendations)
   calc_personalization(recommendations, num_movies, num_users)
   mapk(recommendations, num_users, user_5_df, user_4_df)
+  mean_precision(recommendations, num_users, user_5_df, user_4_df)
 
 if not args.just_eval:
   if args.regen_words_df:
