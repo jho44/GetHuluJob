@@ -16,6 +16,9 @@
             - `num_movies` (int): the first `num_movies` movies from the data set that you'd like to train on
                 - by default, it's the number of movies in the data set (1056)
             - `just_eval` (bool): True if you'd like to just calculate the evaluation metrics. Assumes you already have the trained posterior values in `results/theta.npy`.
+    - [Pyro](https://pyro.ai/examples/prodlda.html)
+        - can run the notebook straight through
+        - to modify number of topics, number of epochs run, etc. in cell 4
 2. PMF
     - [pure Python](https://towardsdatascience.com/pmf-for-recommender-systems-cbaf20f102f0)
         - can run the notebook straight through
@@ -23,7 +26,7 @@
         - run `python3 stan-pmf.py` in terminal with the followiing available flags:
             - `just_eval` (bool): True if you'd like to just calculate the evaluation metrics. Assumes you already have the trained posterior values in `results/Z.npy` and `results/W.npy`.
 ### Eval Metrics
-1. Personalization
-2. MAP@K
-3. Mean Precision
+1. [Personalization](https://medium.com/qloo/popular-evaluation-metrics-in-recommender-systems-explained-324ff2fb427d)
+2. [MAP@K](https://sdsawtelle.github.io/blog/output/mean-average-precision-MAP-for-recommender-systems.html)
+3. [Mean Precision](https://towardsdatascience.com/breaking-down-mean-average-precision-map-ae462f623a52)
 4. RMSE
