@@ -79,8 +79,6 @@ if not args.just_eval:
     np.save(f, fit['Z'])
   with open('results/W.npy', 'wb') as f:
     np.save(f, fit['W'])
-  with open('results/beta.npy', 'wb') as f:
-    np.save(f, fit['beta'])
 else:
   # read posterior vals from file
   Z = np.load('results/Z.npy')
