@@ -18,7 +18,7 @@
             - `just_eval` (bool): True if you'd like to just calculate the evaluation metrics. Assumes you already have the trained posterior values in `results/theta.npy`.
     - [Pyro](https://pyro.ai/examples/prodlda.html)
         - can run the notebook straight through
-        - to modify number of topics, number of epochs run, etc. in cell 4
+        - modify number of topics, number of epochs run, etc. in cell 4
 2. PMF
     - [pure Python](https://towardsdatascience.com/pmf-for-recommender-systems-cbaf20f102f0)
         - can run the notebook straight through
