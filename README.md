@@ -19,6 +19,9 @@
     - [Pyro](https://pyro.ai/examples/prodlda.html)
         - can run the notebook straight through
         - modify number of topics, number of epochs run, etc. in cell 4
+    - [Turing](https://github.com/TuringLang/TuringExamples/blob/466fe443ea0270ff2a7420c30339b2bce7e8f4b9/nonparametrics/topic_model.jl)
+        - can run the notebook using Julia runtime
+        - results are output to CSV (`cache/julia_out.csv`) for evaluation in Python using `eval_julia.ipynb`
 2. PMF
     - [pure Python](https://towardsdatascience.com/pmf-for-recommender-systems-cbaf20f102f0)
         - can run the notebook straight through
